@@ -22,8 +22,37 @@ def load_json(path):
         return json.load(f)
 
 def pick_random_question(block):
-    """block = dict avec clé 'questions'."""
-    return random.choice(block.get("questions", []))
+    """Format: questions classiques (projets ou brain-teasers)."""
+    if isinstance(block, list):
+        if not block:
+            return None
+        return random.choice(block)
+
+    questions = block.get("questions", [])
+    if not questions:
+        return None
+    return random.choice(questions)
+
+
+def pick_random_culture(culture_dict):
+    """
+    Pour culture-G-actuariat.json
+    Structure :
+      { "theme": "...", "description": "...", "blocs": [ {...}, ... ] }
+    On renvoie un (bloc, section) aléatoire.
+    """
+    blocs = culture_dict.get("blocs", [])
+    if not blocs:
+        return None, None
+
+    bloc = random.choice(blocs)
+    sections = bloc.get("sections", [])
+    if not sections:
+        return bloc, None
+
+    section = random.choice(sections)
+    return bloc, section
+
 
 # -----------------------------
 # Mapping fichiers
@@ -218,5 +247,6 @@ with tab4:
             st.write(q.get("reponse", ""))
     else:
         st.info("Clique sur « Nouvelle question mixte » pour commencer.")
+
 
 
