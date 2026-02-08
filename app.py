@@ -30,7 +30,7 @@ def pick_random_question(block):
 # -----------------------------
 projets_files = {
     "Tarification auto – GLM Poisson": "Tarification-auto-GLM-Poisson-application-Streamlit.json",
-    "Provisionnement Non-Vie – Triangle de développement": "Provisionnement_Non-Vie_Triangle_de_développement.json",
+    "Provisionnement Non-Vie – Triangle de développement": "Provisionnement_Non-Vie_Triangle_de_développement_Chain_Ladder.json",
     "Analyse gestion d'actifs / SFCR": "analyse-gestion-actifs-sfcr.json",
     "Détection de fraude": "detection-fraude.json",
 }
@@ -218,4 +218,5 @@ with tab4:
             st.write(q.get("reponse", ""))
     else:
         st.info("Clique sur « Nouvelle question mixte » pour commencer.")
+
 
