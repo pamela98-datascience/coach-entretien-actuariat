@@ -24,20 +24,35 @@ def load_json(path):
         return {}
 
 def pick_random_question(block):
-    """Fonction universelle pour TOUS tes formats JSON."""
+    """
+    Fonction universelle pour TOUS tes formats JSON,
+    y compris brain-teaser.json qui a des blocs -> questions.
+    """
+    # Cas 1 : le JSON est déjà une liste de questions
     if isinstance(block, list):
         if not block:
             return None
         return random.choice(block)
-    
-    possible_keys = ["questions", "questionsentretiens"]
-    for key in possible_keys:
-        if key in block:
-            questions = block[key]
-            if questions:
-                return random.choice(questions)
-    
+
+    # Cas 2 : brain-teaser.json avec "blocs" contenant chacun "questions"
+    if isinstance(block, dict) and "blocs" in block:
+        all_questions = []
+        for bloc in block["blocs"]:
+            qs = bloc.get("questions", [])
+            all_questions.extend(qs)
+        if all_questions:
+            return random.choice(all_questions)
+        return None
+
+    # Cas 3 : JSON "classiques" avec une clé questions / questionsentretiens
+    if isinstance(block, dict):
+        for key in ["questions", "questionsentretiens"]:
+            if key in block and block[key]:
+                return random.choice(block[key])
+
+    # Si rien trouvé
     return None
+
 
 def pick_culture_block(data_culture):
     """Pour culture-G-actuariat.json."""
@@ -50,12 +65,15 @@ def pick_culture_block(data_culture):
     return bloc, section
 
 def get_reponse(q):
-    """Récupère la réponse sous tous les formats."""
-    keys = ["reponse", "reponse_courte", "reponse_textuelle", "reponse_numerique", "resume"]
-    for key in keys:
-        if q and key in q and q[key]:
+    """Récupère la réponse sous tous les formats possibles."""
+    if not isinstance(q, dict):
+        return ""
+    for key in ["reponse", "reponse_courte", "reponse_textuelle",
+                "reponse_numerique", "resume"]:
+        if key in q and q[key]:
             return q[key]
     return ""
+
 
 # Fichiers (adapte les noms exacts à ton repo GitHub)
 projets_files = {
@@ -232,3 +250,4 @@ with tab4:
 
 st.markdown("---")
 st.caption("📁 Vérifie que tous les JSON sont dans le même dossier que app.py")
+
