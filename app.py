@@ -3,63 +3,62 @@ import json
 import random
 from pathlib import Path
 
-# -----------------------------
-# Configuration générale
-# -----------------------------
-st.set_page_config(
-    page_title="Coach entretien actuariat",
-    layout="wide"
-)
+st.set_page_config(page_title="Coach entretien actuariat", layout="wide")
 
 DATA_DIR = Path(__file__).parent
 
-# -----------------------------
-# Fonctions utilitaires
-# -----------------------------
 @st.cache_data
 def load_json(path):
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
+    """Charge un fichier JSON avec gestion d'erreur."""
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        st.error(f"Fichier non trouvé : {path}")
+        return {}
+    except json.JSONDecodeError:
+        st.error(f"Erreur JSON dans : {path}")
+        return {}
 
 def pick_random_question(block):
-    """Format: questions classiques (projets ou brain-teasers)."""
+    """Fonction universelle pour TOUS tes formats de JSON."""
     if isinstance(block, list):
         if not block:
             return None
         return random.choice(block)
+    
+    # Chercher la liste de questions sous différents noms
+    possible_keys = ["questions", "questionsentretiens"]
+    for key in possible_keys:
+        if key in block:
+            questions = block[key]
+            if questions:
+                return random.choice(questions)
+    
+    return None
 
-    questions = block.get("questions", [])
-    if not questions:
-        return None
-    return random.choice(questions)
-
-
-def pick_random_culture(culture_dict):
-    """
-    Pour culture-G-actuariat.json
-    Structure :
-      { "theme": "...", "description": "...", "blocs": [ {...}, ... ] }
-    On renvoie un (bloc, section) aléatoire.
-    """
-    blocs = culture_dict.get("blocs", [])
+def pick_culture_block(data_culture):
+    """Pour culture-G-actuariat.json spécifique."""
+    blocs = data_culture.get("blocs", [])
     if not blocs:
         return None, None
-
     bloc = random.choice(blocs)
     sections = bloc.get("sections", [])
-    if not sections:
-        return bloc, None
-
-    section = random.choice(sections)
+    section = random.choice(sections) if sections else None
     return bloc, section
 
+def get_reponse(q):
+    """Récupère la réponse sous tous les formats possibles."""
+    return (q.get("reponse", "") or 
+            q.get("reponse_courte", "") or 
+            q.get("resume", "") or 
+            q.get("reponse_textuelle", "") or 
+            q.get("reponse_numerique", "") or "")
 
-# -----------------------------
-# Mapping fichiers
-# -----------------------------
+# Mapping des projets (adapte aux vrais noms de fichiers dans ton repo GitHub)
 projets_files = {
     "Tarification auto – GLM Poisson": "Tarification-auto-GLM-Poisson-application-Streamlit.json",
-    "Provisionnement Non-Vie – Triangle de développement": "Provisionnement_Non-Vie_Triangle_de_développement_Chain_Ladder.json",
+    "Provisionnement Non-Vie – Triangle": "Provisionnement_Non-Vie_Triangle_de_développement_Chain_Ladder.json",
     "Analyse gestion d'actifs / SFCR": "analyse-gestion-actifs-sfcr.json",
     "Détection de fraude": "detection-fraude.json",
 }
@@ -67,186 +66,156 @@ projets_files = {
 culture_file = "culture-G-actuariat.json"
 brain_file = "brain-teaser.json"
 
-# -----------------------------
-# Interface
-# -----------------------------
-st.title("Coach d’entretien actuarial – Pamela")
+st.title("🤖 Coach entretien actuariat CFA")
 
-st.markdown(
-"""
-Application personnelle pour réviser **mes projets**, la **culture actuariat**
-et les **brain-teasers** d’entretien.
+tab1, tab2, tab3, tab4 = st.tabs(["Mes projets", "Culture G", "Brain teasers", "Session 10 min"])
 
-Conseil d’utilisation :
-1. Choisir un onglet (Projet, Culture, Brain-teaser).
-2. Laisser l’app poser une question.
-3. Répondre **à voix haute**, puis comparer avec les éléments de réponse.
-"""
-)
-
-tab1, tab2, tab3, tab4 = st.tabs(
-    ["Mes projets", "Culture actuariat", "Brain-teasers", "Session 10 minutes"]
-)
-
-
-# -----------------------------
-# Onglet 1 : Projets
-# -----------------------------
+# ============================================================================
+# TAB 1 : MES PROJETS
+# ============================================================================
 with tab1:
-    st.subheader("Questions sur mes projets")
-
-    col_left, col_right = st.columns([1, 2])
-
-    with col_left:
-        projet_nom = st.selectbox("Choisir un projet", list(projets_files.keys()))
-        data_projet = load_json(DATA_DIR / projets_files[projet_nom])
-
-        st.markdown(f"**Titre :** {data_projet.get('titre', projet_nom)}")
-        desc = data_projet.get("description", "")
-        if desc:
-            st.write(desc)
-
-        st.markdown("**Objectif de ce bloc :** être capable d’expliquer le projet en 1 minute, puis de répondre à des questions de détail (méthode, difficultés, résultats).")
-
-        if st.button("Question sur ce projet"):
-            q = pick_random_question(data_projet)
-            st.session_state["last_project_question"] = q
-
-    with col_right:
-        q = st.session_state.get("last_project_question")
+    st.header("Questions sur mes projets")
+    
+    data_projets = {}
+    for nom, fichier in projets_files.items():
+        data_projets[nom] = load_json(DATA_DIR / fichier)
+    
+    col1, col2 = st.columns([1, 3])
+    
+    with col1:
+        projet_nom = st.selectbox("Choisir un projet :", list(projets_files.keys()))
+        if st.button("Nouvelle question", key="btn_projets"):
+            data = data_projets[projet_nom]
+            q = pick_random_question(data)
+            if q:
+                st.session_state["last_question"] = q
+                st.session_state["projet_actuel"] = projet_nom
+            else:
+                st.error("Aucune question trouvée dans ce projet.")
+    
+    with col2:
+        q = st.session_state.get("last_question")
         if q:
             st.markdown("### Question")
-            st.write(q["question"])
-
-            with st.expander("Afficher une réponse possible"):
-                st.write(q.get("reponse", ""))
+            st.write(f"**Projet :** {st.session_state['projet_actuel']}")
+            st.write(q.get("question", ""))
+            
+            with st.expander("Afficher réponse possible"):
+                reponse = get_reponse(q)
+                if reponse:
+                    st.write(reponse)
+                    if q.get("theme"):
+                        st.caption(f"Thème : {q['theme']}")
+                else:
+                    st.info("Pas de réponse détaillée.")
         else:
-            st.info("Clique sur « Question sur ce projet » pour commencer.")
+            st.info("Choisis un projet et clique « Nouvelle question ».")
 
-# -----------------------------
-# Onglet 2 : Culture actuariat
-# -----------------------------
+# ============================================================================
+# TAB 2 : CULTURE G
+# ============================================================================
 with tab2:
-    st.subheader("Culture générale actuariat / réglementation")
-
+    st.header("Culture générale actuariat / réglementation")
+    
     data_culture = load_json(DATA_DIR / culture_file)
-
-    st.markdown(
-    """
-    Ici tu révises les notions type **Solvabilité II, IFRS, SCR, MCR, provisions, ALM**, etc.
-    Objectif : donner une **définition simple**, expliquer **pourquoi c’est important**
-    et donner **un exemple**.
-    """
-    )
-
-    col1, col2 = st.columns([1,2])
-
+    
+    col1, col2 = st.columns([1, 3])
+    
     with col1:
-        if st.button("Nouvelle question de culture", key="btn_culture"):
-            q = pick_random_question(data_culture)
-            st.session_state["last_culture_question"] = q
-
+        if st.button("Nouvelle fiche culture", key="btn_culture"):
+            bloc, section = pick_culture_block(data_culture)
+            st.session_state["culture_bloc"] = bloc
+            st.session_state["culture_section"] = section
+    
     with col2:
-        q = st.session_state.get("last_culture_question")
-        if q:
-            st.markdown("### Question")
-            st.write(q["question"])
-            with st.expander("Afficher une réponse possible"):
-                st.write(q.get("reponse", ""))
+        bloc = st.session_state.get("culture_bloc")
+        if bloc:
+            st.markdown(f"### **Bloc :** {bloc.get('titre', bloc.get('id', 'N/A'))}")
+            st.write(bloc.get("description", ""))
+            
+            section = st.session_state.get("culture_section")
+            if section:
+                st.markdown(f"**Section :** {section.get('nom', 'N/A')}")
+                st.write(section.get("resume", ""))
+                
+                points = section.get("points", [])
+                if points:
+                    st.markdown("**Points clés :**")
+                    for p in points:
+                        st.write(f"• {p}")
         else:
-            st.info("Clique sur « Nouvelle question de culture ».")
+            st.info("Clique « Nouvelle fiche culture ».")
 
-# -----------------------------
-# Onglet 3 : Brain-teasers
-# -----------------------------
+# ============================================================================
+# TAB 3 : BRAIN TEASERS
+# ============================================================================
 with tab3:
-    st.subheader("Brain-teasers / petites questions logiques")
-
+    st.header("Brain teasers actuariat")
+    
     data_brain = load_json(DATA_DIR / brain_file)
-
-    st.markdown(
-    """
-    Ici tu t'entraînes sur les questions de raisonnement / logique.
-    Objectif : structurer ta réponse, expliquer ton raisonnement étape par étape,
-    même si tu n’es pas sûre du résultat.
-    """
-    )
-
-    col1, col2 = st.columns([1,2])
-
+    
+    col1, col2 = st.columns([1, 3])
+    
     with col1:
-        if st.button("Nouvelle question brain-teaser", key="btn_brain"):
+        if st.button("Nouveau brain teaser", key="btn_brain"):
             q = pick_random_question(data_brain)
-            st.session_state["last_brain_question"] = q
-
+            if q:
+                st.session_state["brain_q"] = q
+            else:
+                st.error("Aucune question trouvée dans brain-teaser.json")
+    
     with col2:
-        q = st.session_state.get("last_brain_question")
+        q = st.session_state.get("brain_q")
         if q:
             st.markdown("### Question")
-            st.write(q["question"])
-            with st.expander("Afficher une piste de réponse"):
-                st.write(q.get("reponse", ""))
+            st.write(q.get("intitule", q.get("question", "")))
+            
+            with st.expander("Solution détaillée"):
+                reponse = get_reponse(q)
+                if reponse:
+                    st.markdown(reponse)
+                if q.get("raisonnement"):
+                    st.markdown("**Raisonnement :**")
+                    for etape in q["raisonnement"]:
+                        st.write(f"• {etape}")
+                if q.get("tags"):
+                    st.caption(f"Tags : {', '.join(q['tags'])}")
         else:
-            st.info("Clique sur « Nouvelle question brain-teaser ».")
+            st.info("Clique « Nouveau brain teaser ».")
 
-# -----------------------------
-# Onglet 4 : Session 10 minutes
-# -----------------------------
+# ============================================================================
+# TAB 4 : SESSION 10 MIN
+# ============================================================================
 with tab4:
-    st.subheader("Session mixte 10 minutes")
-
-    st.markdown(
-    """
-    Cette session alterne **projets**, **culture actuariat** et **brain-teasers**.
-    Idéal pour simuler un entretien : tu dois répondre à tout ce qui vient.
-
-    1. Clique sur « Nouvelle question ».
-    2. Réponds à voix haute (tu peux te chronométrer 1–2 minutes).
-    3. Ouvre les éléments de réponse pour vérifier.
-    """
-    )
-
-    mode = st.selectbox(
-        "Type de questions à inclure",
-        ["Mixte (tout)", "Projets uniquement", "Culture uniquement", "Brain-teasers uniquement"],
-    )
-
-    # Préparer les pools
-    questions_pool = []
-
-    if mode in ("Mixte (tout)", "Projets uniquement"):
-        for fname in projets_files.values():
-            d = load_json(DATA_DIR / fname)
-            for q in d.get("questions", []):
-                questions_pool.append(("Projet", q))
-
-    if mode in ("Mixte (tout)", "Culture uniquement"):
-        d_culture = load_json(DATA_DIR / culture_file)
-        for q in d_culture.get("questions", []):
-            questions_pool.append(("Culture", q))
-
-    if mode in ("Mixte (tout)", "Brain-teasers uniquement"):
-        d_brain = load_json(DATA_DIR / brain_file)
-        for q in d_brain.get("questions", []):
-            questions_pool.append(("Brain-teaser", q))
-
-    if st.button("Nouvelle question mixte"):
-        if questions_pool:
-            cat, q = random.choice(questions_pool)
-            st.session_state["last_mix_question"] = (cat, q)
+    st.header("Session mixte 10 minutes")
+    
+    if st.button("Démarrer session 10 min", key="btn_session"):
+        # Mélange aléatoire : 2 projets + 1 culture + 1 brain
+        projets = []
+        for nom, data in data_projets.items():
+            q = pick_random_question(data)
+            if q:
+                projets.append((nom, q))
+        
+        if len(projets) >= 2:
+            p1, p2 = random.sample(projets, 2)
+            culture_q = pick_culture_block(data_culture)[0]  # Juste le bloc
+            brain_q = st.session_state.get("brain_q") or pick_random_question(data_brain)
+            
+            st.session_state["session_questions"] = [p1, p2, (culture_q, "Culture"), (brain_q, "Brain teaser")]
+    
+    questions_session = st.session_state.get("session_questions", [])
+    for i, q in enumerate(questions_session):
+        label, question_obj = q
+        st.markdown(f"**Q{i+1} : {label}**")
+        if isinstance(question_obj, tuple):
+            bloc = question_obj
+            st.write(bloc.get("titre", ""))
         else:
-            st.warning("Aucune question disponible (vérifie tes fichiers JSON).")
-
-    last = st.session_state.get("last_mix_question")
-    if last:
-        cat, q = last
-        st.markdown(f"**Catégorie : {cat}**")
-        st.markdown("### Question")
-        st.write(q["question"])
-        with st.expander("Afficher une réponse possible"):
-            st.write(q.get("reponse", ""))
-    else:
-        st.info("Clique sur « Nouvelle question mixte » pour commencer.")
-
-
-
+            st.write(question_obj.get("question", ""))
+        
+        with st.expander("Réponse"):
+            reponse = get_reponse(question_obj)
+            st.write(reponse)
+        
+        st.divider()
