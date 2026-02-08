@@ -1,0 +1,206 @@
+{
+  "theme": "Culture générale actuariat 360°",
+  "description": "Synthèse structurée de la culture générale en actuariat Vie / Non-Vie, Solvabilité II et IFRS 17, avec domaines métier, concepts clés et questions d’entretien.",
+  "blocs": [
+    {
+      "id": "domaines_activite",
+      "titre": "Domaines d’activité",
+      "sections": [
+        {
+          "nom": "Vie",
+          "resume": "Contrats longs avec forte dimension biométrique et comportementale.",
+          "points": [
+            "Produits : épargne (fonds euros, UC), retraite, assurance emprunteur, prévoyance décès, incapacité, invalidité.",
+            "Risques clés : mortalité, longévité, incapacité, rachat, arbitrages, taux d’intérêt, inflation.",
+            "Enjeux : cohérence actif-passif, stabilité des résultats IFRS 17, solvabilité long terme, gestion de la CSM."
+          ]
+        },
+        {
+          "nom": "Non-Vie",
+          "resume": "Contrats courts, fréquence et sévérité de sinistres, volatilité plus immédiate.",
+          "points": [
+            "Produits : auto, habitation, RC, professionnelle, santé court terme, affinitaire.",
+            "Risques clés : fréquence (nombre de sinistres), sévérité (coût moyen), catastrophes naturelles, inflation des sinistres.",
+            "Enjeux : tarification technique, provisionnement IBNR/IBNER, stabilité du ratio combiné, gestion de la volatilité annuelle."
+          ]
+        },
+        {
+          "nom": "Prévoyance / Santé",
+          "resume": "À cheval entre Vie et Non-Vie, avec sinistres récurrents et dimension biométrique.",
+          "points": [
+            "Produits : prévoyance individuelle/collective, incapacité/invalidité, frais de santé, dépendance.",
+            "Méthodes : triangles de maintien, GLM sur durées d’arrêt, provisions PSNE, Best Estimate long terme.",
+            "Enjeux : dérive médicale, réglementation (cartes de remboursement, paniers de soins), gestion des délais de déclaration."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "metiers_actuariat",
+      "titre": "Grands métiers actuariat",
+      "sections": [
+        {
+          "nom": "Tarification / Produits",
+          "resume": "Fixer un tarif techniquement juste et compétitif.",
+          "points": [
+            "Non-Vie : GLM fréquence/sévérité, prime pure = fréquence × coût moyen, chargements de frais et marge, segmentation du portefeuille.[file:28]",
+            "Vie : calcul de primes pour décès, rente, épargne, utilisation de tables de mortalité, lois de rachat, scénarios économiques.",
+            "Compétences : data (pandas, SQL), GLM, interprétation des coefficients, simulateurs (Streamlit) pour les équipes métier.[file:28]"
+          ]
+        },
+        {
+          "nom": "Provisionnement / Inventaire",
+          "resume": "Estimer les engagements déjà nés mais pas entièrement payés.",
+          "points": [
+            "Non-Vie : triangles de développement payés/incurred, Chain Ladder, Bornhuetter-Ferguson, IBNR/IBNER, backtesting.[file:29]",
+            "Vie : Best Estimate des flux futurs (prestations, rachats, frais), Risk Margin, CSM sous IFRS 17.[file:30][file:31]",
+            "Enjeux : cohérence avec l’historique, gestion du risk of misestimation, lien avec le bilan prudentiel et IFRS."
+          ]
+        },
+        {
+          "nom": "Gestion d’actifs / ALM",
+          "resume": "Aligner les actifs sur les engagements.",
+          "points": [
+            "Vie : forte sensibilité aux taux, courbe des taux (EIOPA bottom-up/top-down), mesures LTG (VA, matching adjustment). [file:30][file:31]",
+            "Non-Vie : portefeuilles plus liquides, allocation sous contrainte SCR de marché, gestion de la duration vs besoins de sinistres.[file:27][file:30]",
+            "Enjeux : arbitrage rendement / coût en capital, gestion du risque de marché (souvent dominant dans le SCR global).[file:30]"
+          ]
+        },
+        {
+          "nom": "Réassurance",
+          "resume": "Transférer une partie du risque à un réassureur.",
+          "points": [
+            "Types : proportionnelle (quote-part, surplus) et non proportionnelle (XoL, stop-loss).",
+            "Objectifs : lisser la sinistralité, protéger le capital, réduire le SCR, stabiliser le résultat.",
+            "Compétences : compréhension des programmes, impact sur S/P, SCR et Best Estimate."
+          ]
+        },
+        {
+          "nom": "Risque / Solvabilité / ORSA",
+          "resume": "Piloter le profil de risque et le capital réglementaire.",
+          "points": [
+            "Bilan Solvabilité II : actifs à la juste valeur, passif = Best Estimate + Marge de risque, fonds propres comme absorbeur de chocs.[file:30]",
+            "SCR/MCR : capital pour couvrir une VaR 99,5% à 1 an (SCR) et seuil minimal (MCR). Formule standard vs modèle interne.[file:30]",
+            "ORSA : vision prospective (3–5 ans), scénarios, stress tests, rôle des fonctions clés (actuariat, risques, audit, conformité).[file:30]"
+          ]
+        },
+        {
+          "nom": "Finance / IFRS 17",
+          "resume": "Traduire les engagements d’assurance en résultat comptable.",
+          "points": [
+            "Passif IFRS 17 : Best Estimate + Risk Adjustment + CSM, pas de profit jour 1.[file:31]",
+            "Courbe des taux : méthodes ascendante (EIOPA) et descendante (top-down), impact sur la valorisation des passifs et la CSM.[file:31]",
+            "Enjeux : volatilité P&L vs OCI, alignement avec IFRS 9 (ECL, PD×LGD×EAD), cohérence actif-passif.[file:31]"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "concepts_soche",
+      "titre": "Concepts socle à maîtriser",
+      "sections": [
+        {
+          "nom": "Solvabilité II",
+          "resume": "Cadre prudentiel européen pour les assureurs.",
+          "points": [
+            "Best Estimate : valeur actuelle probabilisée des flux futurs sans marge de prudence excessive.[file:30]",
+            "Marge de risque : coût du capital (6%) pour transférer les engagements.[file:30]",
+            "SCR/MCR : capital de solvabilité requis (99,5% VaR sur 1 an) et capital minimum réglementaire, avec modules de risques (marché, vie, non-vie, santé, contrepartie, opérationnel).[file:30]",
+            "Pilier 1 : quantitatif (bilan, SCR). Pilier 2 : gouvernance & ORSA. Pilier 3 : reporting (QRT, SFCR). [file:30]"
+          ]
+        },
+        {
+          "nom": "IFRS 17",
+          "resume": "Nouveau standard comptable d’assurance.",
+          "points": [
+            "Passif = BE + Risk Adjustment + CSM ; la CSM amortit le profit dans le temps au rythme du service rendu.[file:31]",
+            "Importance de la courbe des taux et de la cohérence avec les actifs (IFRS 9) pour limiter la volatilité du résultat.[file:31]",
+            "Exigence de données granulaires, systèmes intégrés, collaboration actuariat–risques–finance.[file:31]"
+          ]
+        },
+        {
+          "nom": "Triangles & Chain Ladder",
+          "resume": "Outil central du provisionnement Non-Vie.",
+          "points": [
+            "Triangle : lignes = années d’accident, colonnes = années de développement, cellules = montants cumulés payés ou incurred.[file:29]",
+            "Link ratios : ratios de passage entre colonnes, CDF = produit des link ratios restants jusqu’à l’ultime.[file:29]",
+            "Ultime = dernier cumul observé × CDF, réserve = ultime – déjà payé, backtesting pour évaluer l’erreur de modèle.[file:29]"
+          ]
+        },
+        {
+          "nom": "GLM & prime pure",
+          "resume": "Standard de tarification Non-Vie, transposable en Vie.",
+          "points": [
+            "GLM Poisson avec lien log pour la fréquence, offset log(Exposure) pour le temps au risque.[file:28]",
+            "Sévérité modélisée souvent par une loi Gamma ou lognormale, prime pure = fréquence × coût moyen.[file:28]",
+            "Utilisation en Vie pour mortalité, invalidité, rachats (GLM/logistique), même philosophie de modélisation.[file:28]"
+          ]
+        }
+      ]
+    }
+  ],
+  "questions_entretiens": [
+    {
+      "theme": "Tarification",
+      "question": "En tarification auto, pourquoi utiliser un GLM Poisson avec offset plutôt qu’un modèle linéaire simple ?",
+      "reponse_courte": "Parce que la fréquence est une variable de comptage positive et dépend du temps au risque ; le GLM Poisson avec lien log et offset log(Exposure) garantit des fréquences positives et comparables entre durées d’exposition différentes.[file:28]"
+    },
+    {
+      "theme": "Provisionnement",
+      "question": "Pouvez-vous expliquer en quelques phrases la méthode Chain Ladder et ses principales hypothèses ?",
+      "reponse_courte": "On construit un triangle de paiements cumulés, on calcule des facteurs de développement entre colonnes, puis des CDF pour projeter chaque année d’accident jusqu’à sa charge ultime. On obtient les réserves comme ultime moins déjà payé. Les hypothèses clés sont la stabilité des cadences de règlement et l’indépendance des années d’accident.[file:29]"
+    },
+    {
+      "theme": "Solvabilité_II",
+      "question": "Quelle est la différence entre le bilan comptable et le bilan Solvabilité II ?",
+      "reponse_courte": "Le bilan comptable valorise les actifs au coût historique et les passifs en provisions comptables, alors que le bilan Solvabilité II valorise les actifs à la juste valeur de marché et les passifs en Best Estimate + marge de risque, avec des fonds propres économiques servant d’absorbeur de chocs.[file:30]"
+    },
+    {
+      "theme": "Solvabilité_II",
+      "question": "Qu’est-ce que le SCR et pourquoi dit-on que le risque de marché est souvent dominant ?",
+      "reponse_courte": "Le SCR est le capital nécessaire pour couvrir une perte à 99,5% sur un an. Dans beaucoup d’assureurs, le risque de marché consomme la plus grande partie du SCR, notamment via le choc actions et les variations de taux, ce qui oriente fortement la stratégie d’allocation d’actifs.[file:30]"
+    },
+    {
+      "theme": "IFRS_17",
+      "question": "Comment expliquez-vous la CSM à un non-actuaire ?",
+      "reponse_courte": "C’est la marge de profit non encore gagnée intégrée dans la valorisation des contrats ; elle est comptabilisée progressivement au fur et à mesure que l’assureur rend le service, ce qui évite de reconnaître tout le profit dès la signature.[file:31]"
+    },
+    {
+      "theme": "Vie_vs_NonVie",
+      "question": "Quelles sont, selon vous, les grandes différences entre actuariat Vie et Non-Vie ?",
+      "reponse_courte": "La Vie gère des engagements longs liés à la biométrie et aux taux, avec un fort enjeu d’ALM et de CSM. La Non-Vie travaille sur des contrats courts, fortement concentrés sur la fréquence/sévérité et le provisionnement (triangles, IBNR), avec plus de volatilité annuelle."
+    },
+    {
+      "theme": "Prévoyance",
+      "question": "Comment votre expérience en provisionnement et en tarification s’applique-t-elle à la prévoyance ?",
+      "reponse_courte": "Les triangles de maintien et les IBNR prévoyance utilisent la même logique que les triangles Non-Vie, et les GLM que j’ai utilisés en auto se transposent à la modélisation de mortalité, invalidité et rachats en prévoyance."
+    },
+    {
+      "theme": "ALM",
+      "question": "Pourquoi la courbe des taux est-elle si importante pour un assureur Vie ?",
+      "reponse_courte": "Elle sert à actualiser les flux de passif (Best Estimate, CSM) et à valoriser certaines obligations ; une baisse des taux longs augmente les provisions et peut mettre le ratio de solvabilité sous pression, d’où le besoin d’une gestion ALM fine.[file:30][file:31]"
+    }
+  ],
+  "questions_a_poser": [
+    {
+      "moment": "Fin entretien",
+      "question": "Comment vos équipes arbitrent-elles aujourd’hui entre optimisation du SCR et objectifs de rendement pour les assurés et les actionnaires ?",
+      "interet": "Montre que tu comprends le SCR comme ressource rare à piloter, et que tu te projettes dans les arbitrages ALM/stratégiques.[file:30]"
+    },
+    {
+      "moment": "Discussion Vie",
+      "question": "Comment IFRS 17 a-t-il changé votre façon de suivre la rentabilité des portefeuilles Vie (rôle de la CSM et des courbes de taux) ?",
+      "interet": "Prouve que tu as compris l’impact de la CSM et de la courbe des taux sur le profil d’émergence du profit.[file:31]"
+    },
+    {
+      "moment": "Discussion Non-Vie",
+      "question": "Comment suivez-vous le risk of misestimation sur vos provisions Non-Vie ? Utilisez-vous systématiquement du backtesting sur vos triangles ?",
+      "interet": "Montre ta maturité sur les limites des méthodes Chain Ladder et ta sensibilité au contrôle de la qualité des réserves.[file:29]"
+    },
+    {
+      "moment": "Discussion prévoyance/santé",
+      "question": "Dans vos portefeuilles de prévoyance, quels sont les indicateurs clés que vous suivez pour détecter des dérives (biométrie, comportement, inflation médicale) ?",
+      "interet": "Montre que tu penses en termes de surveillance dynamique des risques et pas seulement de calculs ponctuels."
+    }
+  ]
+}

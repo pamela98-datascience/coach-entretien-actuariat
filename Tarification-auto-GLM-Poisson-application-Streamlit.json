@@ -1,0 +1,170 @@
+{
+  "nom_projet": "Tarification auto – GLM Poisson & application Streamlit",
+  "type": "Tarification Non-Vie / Data science",
+  "phrase_CV": "Tarification auto GLM Poisson (freMTPL2freq, ~678k contrats) avec offset log(Exposure) et simulateur de prime pure déployé sous Streamlit (Python, statsmodels, joblib).",
+  "pitch_2_minutes": "J’ai mené un projet complet de tarification automobile à partir d’un portefeuille réel de près de 678 000 contrats (freMTPL2freq) afin de construire une prime pure technique par profil de risque.[file:28][cite:7] L’objectif était de modéliser la fréquence de sinistres en fonction des caractéristiques du conducteur et du véhicule, puis de transformer ce modèle en un simulateur utilisable par un souscripteur.[file:28] J’ai d’abord nettoyé les données, traité les expositions incohérentes et préparé les variables catégorielles et continues, puis j’ai calibré un GLM de Poisson avec lien log et offset log(Exposure) pour modéliser la fréquence ClaimNb/Exposure.[file:28][cite:7] À partir de cette fréquence, j’ai calculé une prime pure en multipliant par un coût moyen, et j’ai analysé les relativités tarifaires par zone, âge, bonus-malus ou type de véhicule pour m’assurer de la cohérence actuarielle.[file:28] Ensuite, j’ai encapsulé le modèle dans une application Streamlit : un app.py avec des champs de saisie ergonomiques, chargement du modèle via joblib, calcul de la prime en temps réel et affichage d’explications pédagogiques.[file:28][cite:8] Ce projet montre que je maîtrise la chaîne actuarielle complète : data, GLM, interprétation métier et mise à disposition d’un outil opérationnel, transférable à d’autres lignes Non-Vie ou à des problématiques Vie similaires (mortalité, rachat, etc.).[file:28]",
+  "limites": "Le modèle reste un GLM Poisson de base, sans traitement avancé de la sur-dispersion ni modélisation séparée de la sévérité ; les coûts moyens sont supposés constants, et l’app Streamlit illustre un simulateur pédagogique plus qu’un moteur tarifaire industrialisé.[file:28]",
+  "contexte": {
+    "probleme": "Construire une prime pure d’assurance auto techniquement cohérente en fonction des caractéristiques du risque (conducteur, véhicule, géographie).",
+    "objectif": "Modéliser la fréquence de sinistres via un GLM Poisson avec offset d’exposition, puis proposer un simulateur de prime pure accessible à un utilisateur non technicien.",
+    "enjeux": [
+      "Comprendre l’impact des facteurs de risque sur la sinistralité",
+      "Transformer un modèle statistique en outil de simulation utilisable en pratique",
+      "Acquérir une méthodologie réutilisable pour d’autres projets actuariaux"
+    ]
+  },
+  "methodes": {
+    "python": {
+      "environnement": "Google Colab",
+      "dataset": "freMTPL2freq (~678 000 contrats d’assurance auto France)",
+      "packages_principaux": [
+        "pandas",
+        "numpy",
+        "statsmodels",
+        "joblib",
+        "streamlit"
+      ],
+      "etapes": [
+        "Exploration et compréhension des variables (ClaimNb, Exposure, âge, zone, région, type de carburant, bonus-malus, densité, etc.)",
+        "Nettoyage : filtrage des expositions nulles ou incohérentes, contrôle des valeurs extrêmes",
+        "Préparation : encodage des variables catégorielles en facteurs/statut C() pour statsmodels, mise en forme de la matrice de design",
+        "Calage du GLM Poisson avec lien log et offset log(Exposure) pour modéliser la fréquence de sinistres",
+        "Analyse des coefficients et p-values pour sélectionner les variables pertinentes et interpréter les relativités tarifaires",
+        "Calcul d’une prime pure par profil à partir de la fréquence prédite multipliée par un coût moyen de sinistre",
+        "Sauvegarde du modèle calibré via joblib dans un fichier .pkl pour réutilisation dans l’application Streamlit"
+      ]
+    },
+    "streamlit_app": {
+      "objectif": "Transformer le GLM en simulateur de prime interactive.",
+      "structure": [
+        "Fichier app.py chargé sur Colab puis dans un dépôt GitHub",
+        "Chargement du modèle GLM sauvegardé (.pkl) avec joblib",
+        "Interface Streamlit avec selectbox, sliders et champs numériques pour les variables explicatives",
+        "Fonction de construction d’un vecteur de caractéristiques conforme au modèle (mêmes modalités, encodage cohérent)",
+        "Appel à la méthode predict() pour obtenir la fréquence, puis calcul de la prime pure",
+        "Affichage de la prime simulée, des hypothèses et d’explications textuelles sur le sens des facteurs",
+        "Tests en local (Colab + pyngrok) puis déploiement sur Streamlit Cloud (requirements, gestion des erreurs de dépendances)"
+      ]
+    },
+    "actuariat": {
+      "modele_frequence": "GLM Poisson avec offset pour la modélisation du nombre de sinistres.",
+      "principe_offset": "Utilisation de log(Exposure) comme offset pour normaliser le temps passé au risque et comparer des contrats de durées différentes.",
+      "prime_pure": "Prime pure = fréquence prédite × coût moyen de sinistre.",
+      "validation": [
+        "Contrôle des ordres de grandeur des fréquences prédictes et des primes",
+        "Vérification qualitative des relativités (jeunes conducteurs, zones denses, mauvais bonus-malus plus chers)",
+        "Réflexion sur la sur-dispersion et les limites du modèle Poisson"
+      ]
+    }
+  },
+  "resultats": {
+    "modele": {
+      "type": "GLM Poisson avec lien log",
+      "variable_cible": "ClaimNb (nombre de sinistres)",
+      "offset": "log(Exposure)",
+      "principales_variables": [
+        "Zone / Région",
+        "Âge du conducteur",
+        "Bonus-Malus",
+        "Type de carburant",
+        "Densité de population",
+        "Caractéristiques du véhicule (puissance, âge)"
+      ],
+      "insights": [
+        "Les jeunes conducteurs et les zones à forte densité présentent une fréquence plus élevée",
+        "Les profils avec mauvais bonus-malus ont une relativité tarifaire supérieure",
+        "Certaines classes de véhicules et types de carburant sont plus risqués que la catégorie de référence"
+      ]
+    },
+    "simulateur_streamlit": {
+      "fonctionnalites": [
+        "Saisie d’un profil conducteur/véhicule via interface web",
+        "Calcul automatique de la fréquence de sinistres et de la prime pure correspondante",
+        "Affichage d’un résultat immédiat avec explications pédagogiques",
+        "Démonstration en entretien de l’impact des paramètres sur la prime"
+      ],
+      "valeur_ajoutee": [
+        "Montre la capacité à passer du modèle théorique à un outil métier",
+        "Facilite la discussion avec des non-statisticiens (souscripteurs, commerciaux, managers)",
+        "Illustration concrète de l’usage des GLM dans un contexte métier"
+      ]
+    }
+  },
+  "questions": [
+    {
+      "theme": "Methodologie",
+      "question": "Pourquoi avoir choisi un GLM Poisson plutôt qu’une régression linéaire classique ?",
+      "reponse_courte": "Parce que le nombre de sinistres est une variable de comptage positive ; la loi de Poisson est adaptée et, via le lien log, garantit des fréquences prévues non négatives."
+    },
+    {
+      "theme": "Methodologie",
+      "question": "Comment avez-vous traité l’exposition dans votre modèle et pourquoi utiliser un offset ?",
+      "reponse_courte": "J’ai utilisé log(Exposure) comme offset pour ramener les sinistres à une base annuelle, ce qui permet de comparer des contrats de durées différentes sur un même pied."
+    },
+    {
+      "theme": "Data",
+      "question": "Quelles principales étapes de nettoyage de données avez-vous effectuées ?",
+      "reponse_courte": "Filtre des expositions nulles ou aberrantes, contrôle des valeurs extrêmes de sinistres, encodage propre des variables qualitatives et vérification de la cohérence des modalités."
+    },
+    {
+      "theme": "Data",
+      "question": "Comment avez-vous géré les variables catégorielles dans le GLM ?",
+      "reponse_courte": "En les déclarant comme facteurs dans statsmodels, ce qui revient à créer des effets de classes par rapport à une catégorie de référence, interprétables comme des relativités de prime."
+    },
+    {
+      "theme": "Actuariat",
+      "question": "Qu’est-ce qu’une prime pure dans votre projet et comment la calculez-vous ?",
+      "reponse_courte": "C’est l’espérance de coût de sinistre : fréquence prédite par le GLM multipliée par un coût moyen de sinistre estimé."
+    },
+    {
+      "theme": "Interpretation",
+      "question": "Quels facteurs se sont révélés les plus prédictifs de la sinistralité dans votre modèle ?",
+      "reponse_courte": "Les variables géographiques (zone, densité), l’âge du conducteur et le bonus-malus influent fortement sur la fréquence, avec des relativités élevées pour jeunes conducteurs en zones denses."
+    },
+    {
+      "theme": "Interpretation",
+      "question": "Comment interprétez-vous un coefficient positif pour la densité de population ?",
+      "reponse_courte": "Un coefficient positif indique qu’une densité plus élevée augmente la fréquence attendue de sinistres, donc la prime pure, ce qui est cohérent avec plus de trafic et de collisions potentielles."
+    },
+    {
+      "theme": "Robustesse",
+      "question": "Comment traitez-vous la sur-dispersion dans un modèle Poisson ?",
+      "reponse_courte": "On peut passer à un quasi-Poisson ou à un modèle de type binomial négatif et diagnostiquer la sur-dispersion via la déviance et la comparaison variance/moyenne."
+    },
+    {
+      "theme": "Technique",
+      "question": "Pourquoi utiliser statsmodels plutôt que scikit-learn pour ce GLM ?",
+      "reponse_courte": "Statsmodels fournit des sorties statistiques complètes, notamment les p-values et les intervalles de confiance, indispensables pour l’analyse actuarielle de la significativité des facteurs."
+    },
+    {
+      "theme": "Technique",
+      "question": "Comment avez-vous intégré votre modèle dans l’application Streamlit ?",
+      "reponse_courte": "J’ai sauvegardé le modèle calibré avec joblib, puis je le recharge dans app.py ; je construis un vecteur de caractéristiques à partir des entrées utilisateur et j’utilise predict() pour calculer la fréquence et la prime."
+    },
+    {
+      "theme": "Streamlit",
+      "question": "Comment garantissez-vous que les données saisies dans Streamlit restent cohérentes avec l’entraînement ?",
+      "reponse_courte": "En proposant des listes de choix alignées avec les modalités du modèle et en validant les types/intervales des entrées numériques avant de construire le vecteur de prédiction."
+    },
+    {
+      "theme": "Industrialisation",
+      "question": "Comment feriez-vous pour mettre ce modèle en production à grande échelle ?",
+      "reponse_courte": "En l’exposant via un service API (FastAPI par exemple), avec un monitoring des performances, une gestion des versions de modèle et un processus de recalibrage périodique."
+    },
+    {
+      "theme": "Transversalite_Non-Vie",
+      "question": "Comment cette méthodologie se transpose-t-elle à d’autres lignes Non-Vie ?",
+      "reponse_courte": "C’est la même logique GLM + offset pour la fréquence habitation, santé, flotte, puis la même transformation en prime pure et outil de simulation pour les équipes métier."
+    },
+    {
+      "theme": "Transversalite_Vie",
+      "question": "En quoi ce projet est-il utile pour un poste en assurance Vie ?",
+      "reponse_courte": "Les GLM et la notion d’exposition se retrouvent dans la modélisation de mortalité, d’invalidité ou de rachat ; je peux appliquer la même rigueur à ces phénomènes en Vie."
+    },
+    {
+      "theme": "Soft_skills",
+      "question": "Qu’est-ce que ce projet prouve sur votre profil d’actuaire ?",
+      "reponse_courte": "Que je sais aller du fichier brut au modèle robuste, puis jusqu’à un simulateur interactif ; je comprends à la fois la technique GLM et l’utilisation concrète pour les souscripteurs."
+    }
+  ]
+}

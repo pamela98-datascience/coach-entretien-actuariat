@@ -1,0 +1,199 @@
+{
+  "nom_projet": "Provisionnement Non-Vie – Triangle de développement & Chain Ladder",
+  "type": "Provisionnement Non-Vie / Solvabilité II",
+  "phrase_CV": "Provisionnement auto (Agway Ins Co) par triangles de développement et Chain Ladder sous Python & Excel, estimation IBNR (~5 444) et backtesting des réserves.",
+  "pitch_2_minutes": "J’ai mené un projet de provisionnement Non-Vie sur une branche auto d’Agway Ins Co, en utilisant des données historiques 1988–1997 pour estimer les provisions pour sinistres à payer (IBNR) via la méthode Chain Ladder.[file:29] J’ai d’abord construit des triangles de développement de paiements cumulés par année d’accident et année de développement, en passant du format long au format triangle sous Python (pandas, pivot/pivot_table), puis en les reconstruisant à la main sous Excel pour vérifier chaque étape.[file:29] J’ai calculé les facteurs de développement (link ratios) entre colonnes, en prenant des moyennes simples ou pondérées, puis les facteurs cumulés (CDF) permettant de projeter chaque année d’accident jusqu’à sa charge ultime.[file:29] À partir de ces ultimes, j’ai calculé les réserves IBNR comme différence entre l’ultime estimé et les montants déjà payés, obtenant une réserve totale d’environ 5 444 unités monétaires avec une forte concentration sur les années récentes comme 1997.[file:29] Enfin, j’ai intégré une phase de backtesting : en coupant le triangle plus tôt et en comparant les ultimes prédits aux “vraies valeurs”, j’ai mesuré des écarts de l’ordre de 2–3 %, ce qui m’a permis de juger la prudence et la robustesse de la méthode.[file:29] Ce projet montre que je maîtrise à la fois la technique Chain Ladder, l’automatisation Python, le contrôle Excel et la lecture métier des enjeux de réserve, transposables à d’autres lignes Non-Vie ou à des portefeuilles de prévoyance en Vie.[file:29]",
+  "limites": "La méthode Chain Ladder suppose la stabilité des cadences de règlement et l’indépendance des années d’accident ; elle est sensible aux sinistres atypiques, au choix des moyennes de facteurs et ne traite pas explicitement l’inflation ni l’incertitude sur la queue longue.[file:29]",
+  "definitions_cles": [
+    {
+      "terme": "Triangle de développement (run-off)",
+      "definition": "Tableau dont les lignes sont les années d’accident et les colonnes les années de développement ; chaque cellule contient un montant cumulé (payé ou incurred) permettant de suivre la croissance des sinistres dans le temps.[file:29]"
+    },
+    {
+      "terme": "Année d’accident",
+      "definition": "Année de survenance du sinistre, indépendante de l’année où il est payé ; c’est l’axe de base des triangles de développement.[file:29]"
+    },
+    {
+      "terme": "Année de développement",
+      "definition": "Nombre d’années écoulées depuis l’année d’accident ; chaque colonne d’un triangle correspond à un développement j (0,1,2,…). [file:29]"
+    },
+    {
+      "terme": "Facteur de développement (link ratio)",
+      "definition": "Ratio de passage entre deux colonnes consécutives d’un triangle (somme des montants en j+1 / somme des montants en j), mesurant la cadence de règlement entre deux années de développement.[file:29]"
+    },
+    {
+      "terme": "CDF (Cumulative Development Factor)",
+      "definition": "Produit des facteurs de développement restants jusqu’à l’ultime, utilisé pour projeter un montant cumulé observé aujourd’hui vers sa valeur finale à maturité.[file:29]"
+    },
+    {
+      "terme": "Charge ultime",
+      "definition": "Estimation du coût total final d’une année d’accident, obtenue en multipliant le dernier montant cumulé observé par le CDF correspondant.[file:29]"
+    },
+    {
+      "terme": "Réserve (IBNR / PSAP)",
+      "definition": "Montant que l’assureur doit encore payer pour les sinistres d’une année d’accident : Réserve = charge ultime estimée – montant déjà payé ; l’IBNR couvre les sinistres survenus mais non encore reportés ou insuffisamment déclarés.[file:29]"
+    },
+    {
+      "terme": "Facteur de queue (tail factor)",
+      "definition": "Facteur supplémentaire appliqué après la dernière colonne observée pour tenir compte des paiements qui interviendront au-delà de l’horizon du triangle.[file:29]"
+    },
+    {
+      "terme": "Backtesting",
+      "definition": "Procédure consistant à projeter des ultimes à partir d’un triangle tronqué dans le passé, puis à les comparer aux valeurs finalement observées pour évaluer l’erreur du modèle (sur- ou sous-provision).[file:29]"
+    },
+    {
+      "terme": "Best Estimate",
+      "definition": "Sous Solvabilité II, estimation centrale des engagements futurs, sans marge de prudence excessive ; les ultimes de Chain Ladder peuvent alimenter ce Best Estimate pour certaines branches.[file:29]"
+    }
+  ],
+  "contexte": {
+    "probleme": "Estimer les provisions pour sinistres à payer (IBNR) d’une branche auto à partir d’historiques de paiements, en identifiant le coût ultime par année d’accident et le niveau de réserve à inscrire au bilan.",
+    "objectif": "Construire des triangles de développement, appliquer la méthode Chain Ladder, calculer les charges ultimes et les réserves, puis analyser la qualité des estimations via backtesting.",
+    "enjeux": [
+      "Garantir que les réserves sont suffisantes sans être excessivement prudentes",
+      "Comprendre l’impact de la cadence de règlement sur le bilan et le résultat",
+      "Mettre en place une méthode reproductible et contrôlable (Python + Excel)"
+    ]
+  },
+  "methodes": {
+    "python": {
+      "environnement": "Google Colab",
+      "dataset": "ppauto_pos.csv (branche Auto, compagnie Agway Ins Co)",
+      "packages_principaux": [
+        "pandas",
+        "numpy",
+        "matplotlib",
+        "seaborn"
+      ],
+      "etapes": [
+        "Chargement des données sinistres et filtrage par compagnie/branche ciblée",
+        "Passage du format long au format triangle via pivot/pivot_table (index = année d’accident, colonnes = année de développement, valeurs = montants cumulés)",
+        "Calcul des sommes par colonne pour le calcul des link ratios globaux",
+        "Calcul des facteurs de développement (link ratios) et des CDF par colonne",
+        "Projection des charges ultimes par année d’accident en appliquant les CDF aux derniers montants observés",
+        "Calcul des réserves IBNR par année (ultime – déjà payé) et agrégation au niveau total",
+        "Backtesting : tronquer le triangle à une date passée, appliquer Chain Ladder et comparer ultimes estimés aux ultimes réellement observés"
+      ]
+    },
+    "excel": {
+      "objectifs": [
+        "Reconstituer manuellement le triangle pour contrôler le script Python",
+        "Calculer les link ratios et CDF avec des formules natives",
+        "Vérifier les réserves et les indicateurs de diagnostic"
+      ],
+      "formules_typiques": [
+        "Link ratio colonne j→j+1 : =SOMME(colonne j+1) / SOMME(colonne j)",
+        "CDF colonne j : produit des link ratios de j jusqu’à la dernière colonne",
+        "Ultime_i : dernier cumul observé pour l’année i × CDF de la colonne correspondante",
+        "Réserve_i : Ultime_i – dernier cumul observé",
+        "Réserve_en_% : Réserve_i / Ultime_i"
+      ],
+      "utilite": [
+        "Backtesting manuel et contrôle de cohérence étape par étape",
+        "Traçabilité des calculs pour audit ou présentation aux non-codeurs"
+      ]
+    },
+    "actuariat": {
+      "methode_chain_ladder": [
+        "Construction du triangle de paiements cumulés par année d’accident et de développement",
+        "Calcul des link ratios colonne par colonne, avec choix de moyennes (simple ou pondérée)",
+        "Calcul des CDF pour projeter les montants observés vers l’ultime",
+        "Estimation des charges ultimes et des réserves IBNR",
+        "Analyse de la stabilité des facteurs et des ratios Réserve/Ultime",
+        "Backtesting des ultimes passés pour évaluer l’erreur de modèle"
+      ],
+      "hypotheses": [
+        "Stabilité des cadences de règlement dans le temps",
+        "Indépendance des années d’accident",
+        "Absence d’effets structurels non traités (réorganisation, inflation forte, changements législatifs majeurs)"
+      ]
+    }
+  },
+  "resultats": {
+    "triangle": {
+      "periode_accident": "1988–1997",
+      "horizon_developpement": "10 ans de développement",
+      "observations": [
+        "Montants cumulés croissants par ligne (contrôle de cohérence)",
+        "Facteurs de développement globalement stables par colonne, avec attention particulière aux années récentes"
+      ]
+    },
+    "reservations": {
+      "reserve_totale_estimee": 5444,
+      "commentaire": "La réserve totale estimée pour la branche auto d’Agway Ins Co est d’environ 5 444 unités monétaires à fin 1997, avec une concentration du risque sur les dernières années d’accident (notamment 1997). [file:29]",
+      "indicateurs": [
+        "Réserve_en_% plus élevée sur les années récentes, les moins développées",
+        "Backtesting montrant des écarts de l’ordre de 2–3 % entre ultimes prédits et observés"
+      ]
+    },
+    "backtesting": {
+      "demarche": "Tronquer le triangle à une date passée, appliquer Chain Ladder, comparer les ultimes estimés aux ultimes réalisés et calculer des écarts relatifs.",
+      "insights": [
+        "Les écarts de l’ordre de quelques pourcents montrent une méthode globalement raisonnable mais perfectible",
+        "Les années récentes sont les plus sensibles et nécessitent une lecture critique des facteurs"
+      ]
+    }
+  },
+  "questions": [
+    {
+      "theme": "Methodologie",
+      "question": "Pourquoi avoir choisi la méthode Chain Ladder pour ce projet ?",
+      "reponse_courte": "Parce que c’est la méthode standard quand on dispose d’un historique suffisant et que les cadences de règlement sont relativement stables, ce qui était le cas sur ce portefeuille auto."
+    },
+    {
+      "theme": "Methodologie",
+      "question": "Quelles sont les hypothèses de base de Chain Ladder ?",
+      "reponse_courte": "Indépendance des années d’accident et stabilité des cadences de développement dans le temps ; on suppose que le futur se comportera comme le passé, à structure de portefeuille constante."
+    },
+    {
+      "theme": "Data",
+      "question": "Comment êtes-vous passé du fichier brut ppauto_pos.csv au triangle de développement ?",
+      "reponse_courte": "Sous Python, en filtrant la branche/compagnie puis en utilisant pivot_table avec année d’accident en index, année de développement en colonnes et montants cumulés en valeurs."
+    },
+    {
+      "theme": "Facteurs",
+      "question": "Comment calculez-vous vos facteurs de développement et comment choisissez-vous les moyennes ?",
+      "reponse_courte": "Je calcule les ratios colonne j→j+1 sur chaque année d’accident, puis j’en prends la moyenne, souvent pondérée par les montants, pour qu’une petite année ne domine pas le facteur global."
+    },
+    {
+      "theme": "Ultime_Reserve",
+      "question": "Comment passez-vous du triangle à la réserve IBNR ?",
+      "reponse_courte": "Pour chaque année, je multiplie le dernier cumul observé par le CDF pour obtenir l’ultime, puis je soustrais le déjà payé ; la somme sur les années donne la réserve totale."
+    },
+    {
+      "theme": "Facteur_queue",
+      "question": "Avez-vous utilisé un facteur de queue et comment l’estimeriez-vous ?",
+      "reponse_courte": "Ici l’horizon était de 10 ans ; s’il fallait tenir compte de paiements au-delà, j’estimerais un facteur de queue par extrapolation de la décroissance des ratios ou via un ajustement paramétrique."
+    },
+    {
+      "theme": "Backtesting",
+      "question": "Comment avez-vous vérifié la pertinence de vos réserves ?",
+      "reponse_courte": "Par backtesting : en tronquant le triangle dans le passé, en appliquant Chain Ladder et en comparant les ultimes estimés aux ultimes observés, avec des écarts d’environ 2–3 %."
+    },
+    {
+      "theme": "Vision_metier",
+      "question": "Quel est l’impact d’une sous-estimation des provisions sur le bilan ?",
+      "reponse_courte": "Les fonds propres sont surévalués et l’assureur risque un choc négatif sur le résultat lorsque les sinistres se matérialisent, ce qui est critique en Solvabilité II."
+    },
+    {
+      "theme": "Vision_metier",
+      "question": "Comment ce projet est-il transposable à l’assurance Vie / Prévoyance ?",
+      "reponse_courte": "La même logique de triangles est utilisée pour les durées de maintien en incapacité/invalidité ou les PSNE santé ; l’outil change mais la méthodologie de projection et de backtesting est la même."
+    },
+    {
+      "theme": "Techniques",
+      "question": "Pourquoi avoir conservé à la fois Python et Excel dans ce projet ?",
+      "reponse_courte": "Python pour l’automatisation et la capacité à traiter de gros volumes, Excel pour la validation pas à pas, la traçabilité et la communication des résultats aux non-codeurs."
+    },
+    {
+      "theme": "Limites",
+      "question": "Quelles limites voyez-vous à votre modèle actuel ?",
+      "reponse_courte": "La méthode ne tient pas explicitement compte de l’inflation, est sensible aux sinistres atypiques et repose sur la stabilité historique ; il faudrait tester d’autres méthodes et scénarios de stress."
+    },
+    {
+      "theme": "Soft_skills",
+      "question": "Qu’est-ce que ce projet montre sur votre façon de travailler en actuariat ?",
+      "reponse_courte": "Que je combine automatisation et contrôle, que je quantifie l’erreur via le backtesting et que je relie toujours le chiffre de réserve à son impact sur le bilan et le risque pour l’assureur."
+    }
+  ]
+}

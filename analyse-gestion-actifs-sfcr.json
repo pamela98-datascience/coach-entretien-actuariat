@@ -1,0 +1,166 @@
+{
+  "nom_projet": "Analyse d'actifs MAAF et autres assureurs",
+  "type": "Gestion d'actifs / Solvabilité II / ALM",
+  "phrase_CV": "Analyse Solvabilité II des portefeuilles d’actifs MAAF/AXA/CNP/Generali (2021-2024) via Python et Excel, extraction SFCR automatisée et benchmark Vie/Non-Vie.",
+  "pitch_2_minutes": "Dans le cadre de mon Master en actuariat, j’ai mené un projet d’analyse stratégique des portefeuilles d’actifs de quatre grands assureurs français – MAAF, AXA IARD, CNP et Generali – sur la période 2021-2024.[file:27] L’objectif était de partir des rapports SFCR, qui sont des rapports prudentiels très volumineux, pour automatiser l’extraction des données d’actifs et comparer concrètement les stratégies Vie et Non-Vie.[file:27] J’ai développé sous Python, sur Google Colab, un script basé sur pdfplumber et des expressions régulières pour extraire les tableaux S.02.01.x, les transformer en DataFrames et calculer des indicateurs comme la structure par classe d’actifs, les évolutions temporelles ou encore des TCAM.[file:27] Ensuite, j’ai utilisé Excel pour fiabiliser les chiffres, réconcilier les sommes avec les totaux de bilan et regrouper les lignes SFCR en grandes classes lisibles pour l’actuaire : obligations, actions, OPC, immobilier, prêts, trésorerie.[file:27] En me concentrant sur la MAAF, j’ai montré qu’elle a une gestion d’actifs très prudente : environ 72 % de produits de taux, une exposition actions limitée à 5 %, une diversification croissante vers l’immobilier et surtout un ratio de solvabilité de 443 %, extrêmement confortable.[file:27] Ce projet m’a permis de relier trois niveaux : la technique Python, la rigueur de contrôle sous Excel, et la lecture métier des enjeux Solvabilité II et ALM entre Vie et Non-Vie.[file:27]",
+  "limites": "Les résultats dépendent fortement de la qualité et du format des rapports SFCR, notamment pour le look-through des OPC ; en l’absence de détail suffisant, il faut compléter l’outil par des hypothèses prudentes d’actuaire.[file:27]",
+  "contexte": {
+    "probleme": "Comprendre et comparer les stratégies d’allocation d’actifs d’assureurs Vie et Non-Vie français à partir de leurs rapports SFCR.",
+    "objectif": "Automatiser l’extraction des données d’actifs, fiabiliser les chiffres, puis analyser la structure de portefeuille et la solvabilité, avec un focus sur la MAAF.",
+    "enjeux": [
+      "Mesurer l’arbitrage entre sécurité réglementaire, rendement financier et liquidité",
+      "Comparer les profils Vie vs Non-Vie en termes d’allocation et de SCR",
+      "Produire une veille concurrentielle exploitable en actuariat"
+    ]
+  },
+  "methodes": {
+    "python": {
+      "environnement": "Google Colab",
+      "packages_principaux": [
+        "pdfplumber",
+        "re (expressions régulières)",
+        "pandas",
+        "numpy"
+      ],
+      "etapes": [
+        "Extraction automatique des tableaux SFCR S.02.01.x sur plusieurs années et assureurs",
+        "Nettoyage et mise en forme des tableaux dans des DataFrames homogènes",
+        "Harmonisation des catégories d’actifs (actions, obligations, OPC, immobilier, prêts, trésorerie, UC)",
+        "Calcul de poids par classe d’actifs et d’indicateurs d’évolution (TCAM, variations relatives)",
+        "Préparation des outputs pour contrôle et analyse sous Excel"
+      ]
+    },
+    "excel_google_sheets": {
+      "objectifs": [
+        "Fiabilisation des données extraites",
+        "Construction de vues de synthèse lisibles pour l’actuariat",
+        "Comparaison transversale Vie / Non-Vie"
+      ],
+      "etapes": [
+        "Réconciliation des totaux : contrôle que la somme des classes d’actifs correspond au total des actifs SFCR (ex. 11 734 M€ pour MAAF en 2024)",
+        "Regroupement des lignes SFCR détaillées en grandes classes (Bonds, Actions, Immobilier, Autres)",
+        "Calcul des structures d’actifs 2021-2024 et de leurs évolutions",
+        "Analyse des revenus financiers : séparation revenus récurrents / plus-values",
+        "Construction de tableaux de benchmark MAAF vs assureurs Vie (CNP, Generali) et AXA IARD"
+      ]
+    },
+    "actuariat_reglementaire": {
+      "solvabilite_II": [
+        "Utilisation du ratio de solvabilité (SCR) comme indicateur central de solidité (443 % pour MAAF)",
+        "Compréhension de l’impact du choc actions dans la formule standard, expliquant une exposition actions limitée à 5 %",
+        "Application du concept de look-through pour reclasser les OPC selon leurs sous-jacents"
+      ],
+      "ifrs_17": [
+        "Différenciation entre bilan prudentiel Solvabilité II (protection des assurés) et bilan IFRS 17 (reconnaissance et étalement du profit via la CSM)"
+      ]
+    }
+  },
+  "resultats": {
+    "maaf": {
+      "total_actifs_2024_mEUR": 11734.76,
+      "ratio_solvabilite_scr_pourcent": 443,
+      "structure_portefeuille_2024": {
+        "obligations_et_OPC_pourcent": 72,
+        "actions_pourcent": 5,
+        "prets_hypotheques_pourcent": 10,
+        "immobilier_et_autres_pourcent": 13
+      },
+      "resultat_financier_2024_mEUR": 309.7,
+      "repartition_resultat_financier_2024": {
+        "revenus_recurrents_mEUR": 198.7,
+        "plus_values_nettes_mEUR": 110.9,
+        "part_produits_de_taux_pourcent": 59
+      },
+      "insights": [
+        "Gestion d’actifs prudente orientée produits de taux, avec exposition actions strictement maîtrisée",
+        "Diversification progressive vers l’immobilier et les actifs moins corrélés aux marchés",
+        "Sur-capitalisation offrant une forte capacité d’absorption de chocs"
+      ]
+    },
+    "comparaison": {
+      "vie_vs_non_vie": {
+        "assureurs_vie": "CNP et Generali présentent une forte part d’Unités de Compte (23–35 %) et une logique ALM long terme.",
+        "assureurs_non_vie": "MAAF et AXA IARD privilégient les produits de taux et une plus grande liquidité pour faire face aux sinistres."
+      },
+      "robustesse": "Les quatre assureurs maintiennent des ratios de solvabilité robustes malgré l’inflation et la hausse des taux.",
+      "transition_durable": "Tous accélèrent leur alignement ESG, notamment via les exigences de l’Article 29 de la Loi Énergie-Climat."
+    }
+  },
+  "questions": [
+    {
+      "theme": "Methodologie",
+      "question": "Pourquoi avoir utilisé les rapports SFCR plutôt que les rapports annuels classiques ?",
+      "reponse_courte": "Les SFCR sont normés par l’EIOPA, présentent les actifs en valeur de marché et sont directement comparables entre assureurs, ce qui n’est pas toujours le cas des comptes locaux."
+    },
+    {
+      "theme": "Methodologie",
+      "question": "Comment avez-vous contrôlé la qualité des données extraites du PDF ?",
+      "reponse_courte": "En réconciliant systématiquement les totaux sous Excel : la somme des classes d’actifs extraites doit être égale au total des actifs du bilan Solvabilité II pour chaque année."
+    },
+    {
+      "theme": "Vie_vs_Non-Vie",
+      "question": "Pourquoi la distinction Vie / Non-Vie est-elle centrale dans votre analyse ?",
+      "reponse_courte": "Parce que la structure des passifs et l’ALM diffèrent : la Non-Vie a besoin de liquidité pour des sinistres courts, la Vie investit davantage sur le long terme et en UC."
+    },
+    {
+      "theme": "Solvabilite_II",
+      "question": "Quel impact a une poche actions de 5 % sur le SCR de la MAAF ?",
+      "reponse_courte": "Les actions consomment beaucoup de capital dans la formule standard ; limiter cette poche réduit l’exigence de capital et stabilise le ratio de solvabilité."
+    },
+    {
+      "theme": "Solvabilite_II",
+      "question": "Un SCR à 443 % pour la MAAF, est-ce 'trop' ou 'bien' ?",
+      "reponse_courte": "C’est très confortable : pour une mutuelle, c’est un gage de sécurité, même si cela peut traduire un capital pas totalement optimisé en rendement."
+    },
+    {
+      "theme": "Solvabilite_II",
+      "question": "Pouvez-vous expliquer le look-through sur les OPC ?",
+      "reponse_courte": "C’est l’obligation de regarder la composition des OPC pour reclasser leurs sous-jacents et appliquer les bons chocs de risque en Solvabilité II."
+    },
+    {
+      "theme": "IFRS_17",
+      "question": "Quel lien faites-vous entre ce projet et IFRS 17 ?",
+      "reponse_courte": "Le projet traite l’actif prudentiel ; IFRS 17 m’a permis de comprendre que la vision du passif change avec la CSM, qui étale le profit, alors que Solvabilité II vise la protection des assurés."
+    },
+    {
+      "theme": "Industrialisation",
+      "question": "Comment industrialiseriez-vous cette analyse pour plusieurs dizaines d’assureurs ?",
+      "reponse_courte": "En structurant le code en classes, en centralisant les résultats dans une base de données et en ajoutant des tests automatiques pour détecter les changements de format de PDF."
+    },
+    {
+      "theme": "Difficulte_technique",
+      "question": "Quelle a été votre principale difficulté technique ?",
+      "reponse_courte": "L’extraction de tableaux multi-pages et de libellés hétérogènes, que j’ai gérée par Regex et un mapping robuste vers des classes d’actifs standardisées."
+    },
+    {
+      "theme": "Non-Vie",
+      "question": "Comment ce projet éclaire-t-il la stratégie d’un assureur Non-Vie comme la MAAF ?",
+      "reponse_courte": "Il montre une gestion prudente, très orientée produits de taux, avec une forte liquidité et une exposition actions maîtrisée, cohérente avec des sinistres courts et un SCR très élevé."
+    },
+    {
+      "theme": "Vie",
+      "question": "Et pour un assureur Vie, que permet ce type d’analyse ?",
+      "reponse_courte": "De suivre la répartition entre fonds euros et UC, l’alignement actif-passif et la sensibilité aux taux, points clés pour l’ALM Vie."
+    },
+    {
+      "theme": "Transversalite",
+      "question": "À quelles autres missions actuarielles pouvez-vous appliquer cette méthodologie ?",
+      "reponse_courte": "Au provisionnement (extraction de triangles), à la veille concurrentielle (fonds euros) et à des études ALM de réallocation d’actifs selon les scénarios de taux."
+    },
+    {
+      "theme": "Synthese",
+      "question": "Comment résumeriez-vous la stratégie d’investissement de la MAAF en une phrase ?",
+      "reponse_courte": "Une gestion prudente de type 'bon père de famille', 72 % de produits de taux, 5 % d’actions, diversification progressive vers l’immobilier, soutenue par un SCR de 443 %."
+    },
+    {
+      "theme": "Limites",
+      "question": "Quelle est la principale limite de votre outil Python ?",
+      "reponse_courte": "La dépendance à la qualité et au détail des rapports SFCR ; en particulier, le manque de look-through complet sur certains OPC impose des hypothèses prudentes."
+    },
+    {
+      "theme": "Soft_skills",
+      "question": "Qu’est-ce que ce projet montre sur votre manière de travailler en actuariat ?",
+      "reponse_courte": "Que je suis data-driven, que je vérifie mes chiffres sous Excel, et que je sais transformer des centaines de pages SFCR en quelques indicateurs stratégiques utilisables."
+    }
+  ]
+}

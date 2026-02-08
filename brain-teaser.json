@@ -1,0 +1,425 @@
+{
+  "theme": "Brain teasers actuariat",
+  "description": "Ensemble de brain teasers structurés en 3 blocs : guesstimates, logique/probas, business actuariat, avec réponses détaillées et raisonnement étape par étape.",
+  "blocs": [
+    {
+      "id": "bloc1_guesstimates",
+      "titre": "Bloc 1 – Estimations de marché (Guesstimates)",
+      "formule_centrale": "Valeur ≈ Population × Taux de pénétration × Fréquence × Coût moyen",
+      "questions": [
+        {
+          "id": 1,
+          "intitule": "Nombre de voitures en France",
+          "objectif": "Tester la capacité à segmenter une population.",
+          "raisonnement": [
+            "Population ≈ 68 millions d’habitants.",
+            "Taille moyenne d’un foyer ≈ 2,3 personnes → environ 30 millions de foyers.",
+            "Foyers urbains : environ 0,5 à 0,8 voiture par foyer (transports en commun disponibles).",
+            "Foyers ruraux/périurbains : environ 1,5 à 2 voitures par foyer (usage indispensable).",
+            "On prend une moyenne globale ≈ 1,2 voiture par foyer.",
+            "Nombre de voitures ≈ 30 millions × 1,2 = 36 millions."
+          ],
+          "reponse_numerique": "Environ 36 millions de voitures (le parc réel est autour de 39 millions, donc estimation correcte).",
+          "structure_actuarielle": "Population = foyers, pénétration = voitures/foyer, pas de fréquence ni de coût ici.",
+          "tags": ["marché", "segmentation", "France"]
+        },
+        {
+          "id": 2,
+          "intitule": "Marché annuel de l’assurance smartphone (CA)",
+          "objectif": "Estimer un flux de revenus annuel.",
+          "raisonnement": [
+            "Population ≈ 68 millions de personnes.",
+            "On change de téléphone tous les 2 à 3 ans → on prend 3 ans : environ 68 / 3 ≈ 20 millions d’achats de smartphones par an.",
+            "Taux de prise d’assurance : environ 15 % des acheteurs.",
+            "Nombre de nouveaux contrats/an ≈ 20 millions × 0,15 = 3 millions.",
+            "Prime annuelle moyenne ≈ 10 € par mois → 120 € par an.",
+            "Chiffre d’affaires ≈ 3 millions × 120 € = 360 millions d’euros."
+          ],
+          "reponse_numerique": "Environ 360 millions d’euros de primes par an.",
+          "structure_actuarielle": "Population × Taux de pénétration × Coût moyen.",
+          "tags": ["assurance", "smartphone", "CA"]
+        },
+        {
+          "id": 3,
+          "intitule": "Nombre de piscines privées en France",
+          "objectif": "Évaluer un parc à partir du type d’habitation.",
+          "raisonnement": [
+            "Foyers ≈ 30 millions.",
+            "Part en maison individuelle ≈ 55 % → environ 16 millions de maisons.",
+            "Part de maisons avec jardin adapté + revenus suffisants ≈ 15 %. ",
+            "Nombre de piscines ≈ 16 millions × 0,15 = 2,4 millions."
+          ],
+          "reponse_numerique": "Environ 2,4 millions (ordre de grandeur proche du réel ≈ 3 millions).",
+          "structure_actuarielle": "Population (maisons) × Taux d’équipement.",
+          "tags": ["habitation", "équipement"]
+        },
+        {
+          "id": 4,
+          "intitule": "Nombre de retraités en France",
+          "objectif": "Tester la culture démographique (utile pour la Vie/retraite).",
+          "raisonnement": [
+            "Population totale ≈ 68 millions.",
+            "Âge de la retraite ≈ 64 ans, espérance de vie ≈ 82 ans.",
+            "On considère que les retraités représentent environ un quart de la population.",
+            "Nombre de retraités ≈ 68 millions / 4 = 17 millions."
+          ],
+          "reponse_numerique": "Environ 17 millions de retraités.",
+          "structure_actuarielle": "Population × Ratio de retraités.",
+          "tags": ["démographie", "retraite"]
+        },
+        {
+          "id": 5,
+          "intitule": "Nombre d’animaux de compagnie assurables (chiens/chats)",
+          "objectif": "Évaluer un marché de niche assurance santé animale.",
+          "raisonnement": [
+            "Foyers ≈ 30 millions.",
+            "Environ 1 foyer sur 2 possède un animal → 15 millions de foyers concernés.",
+            "Nombre moyen d’animaux par foyer possesseur ≈ 1,5 → 15 millions × 1,5 ≈ 22 millions d’animaux.",
+            "Taux d’assurance aujourd’hui ≈ 5 %.",
+            "Animaux assurés ≈ 22 millions × 0,05 = 1,1 million."
+          ],
+          "reponse_numerique": "Environ 1,1 million d’animaux assurés.",
+          "structure_actuarielle": "Foyers × Taux de possession × Animaux/foyer × Taux d’assurance.",
+          "tags": ["animaux", "santé", "marché"]
+        },
+        {
+          "id": 6,
+          "intitule": "Chiffre d’affaires annuel d’un cabinet de kiné",
+          "objectif": "Raisonner sur la capacité de production et les prix.",
+          "raisonnement": [
+            "Capacité : 1 patient toutes les 30 minutes, sur 8 heures → 16 patients par jour.",
+            "Tarif moyen par séance ≈ 25 €.",
+            "Recette journalière ≈ 16 × 25 = 400 €.",
+            "Nombre de jours travaillés : environ 20 jours/mois × 11 mois/an ≈ 220 jours.",
+            "Chiffre d’affaires annuel ≈ 400 × 220 = 88 000 €."
+          ],
+          "reponse_numerique": "Environ 88 000 € de chiffre d’affaires par an.",
+          "structure_actuarielle": "Capacité × Tarif × Jours travaillés.",
+          "tags": ["santé", "profession libérale"]
+        },
+        {
+          "id": 7,
+          "intitule": "Marché des pneus de remplacement (volume annuel)",
+          "objectif": "Raisonner sur la durée de vie et le parc.",
+          "raisonnement": [
+            "Parc auto ≈ 40 millions de voitures.",
+            "Hypothèse : on change 2 pneus tous les 2 ans (ou 4 tous les 4 ans) → équivalent à 1 pneu par voiture et par an en moyenne.",
+            "Volume ≈ 40 millions de pneus de remplacement par an."
+          ],
+          "reponse_numerique": "Environ 40 millions de pneus par an.",
+          "structure_actuarielle": "Parc × Fréquence de remplacement.",
+          "tags": ["auto", "maintenance"]
+        },
+        {
+          "id": 8,
+          "intitule": "Cafés consommés par jour dans une tour de La Défense",
+          "objectif": "Estimer un flux de consommation dans un lieu clos.",
+          "raisonnement": [
+            "Tour : 40 étages, 100 personnes par étage → 4 000 personnes.",
+            "Taux de buveurs de café ≈ 75 % → 3 000 personnes.",
+            "Consommation moyenne ≈ 2 cafés par jour par buveur.",
+            "Nombre de cafés/jour ≈ 3 000 × 2 = 6 000 cafés."
+          ],
+          "reponse_numerique": "Environ 6 000 cafés par jour.",
+          "structure_actuarielle": "Population × Taux de consommation × Quantité par consommateur.",
+          "tags": ["consommation", "bureau"]
+        },
+        {
+          "id": 9,
+          "intitule": "Nombre de stations-service sur autoroute",
+          "objectif": "Raisonnement spatial sur réseau routier.",
+          "raisonnement": [
+            "Longueur réseau autoroutier ≈ 10 000 km.",
+            "Hypothèse : une station tous les 40 km dans chaque sens.",
+            "Nombre de stations ≈ (10 000 / 40) × 2 = 250 × 2 = 500 stations."
+          ],
+          "reponse_numerique": "Environ 500 stations-service sur autoroute.",
+          "structure_actuarielle": "Longueur réseau × Stations/km.",
+          "tags": ["infrastructure", "transport"]
+        },
+        {
+          "id": 10,
+          "intitule": "Nombre d’accidents de vélo par jour à Paris",
+          "objectif": "Estimer une fréquence de sinistres.",
+          "raisonnement": [
+            "Nombre de trajets vélo par jour ≈ 1 million.",
+            "Taux d’accident (même léger) ≈ 1 pour 10 000 trajets.",
+            "Nombre d’accidents ≈ 1 000 000 / 10 000 = 100 par jour."
+          ],
+          "reponse_numerique": "Environ 100 accidents de vélo par jour.",
+          "structure_actuarielle": "Exposition (trajets) × Fréquence.",
+          "tags": ["sinistralité", "mobilité"]
+        }
+      ]
+    },
+    {
+      "id": "bloc2_logique_proba",
+      "titre": "Bloc 2 – Logique et probabilités",
+      "questions": [
+        {
+          "id": 11,
+          "intitule": "Angle entre les aiguilles à 15h15",
+          "objectif": "Tester la précision géométrique et l’attention au détail.",
+          "raisonnement": [
+            "À 15h15, la grande aiguille (minutes) est sur le 3, soit 90 degrés par rapport au 12.",
+            "La petite aiguille (heures) se déplace continûment : en 60 minutes, elle parcourt 30 degrés.",
+            "En 15 minutes, elle parcourt 30 × (15 / 60) = 7,5 degrés.",
+            "L’angle entre les deux aiguilles est donc 7,5 degrés, pas 0."
+          ],
+          "reponse_numerique": "Angle ≈ 7,5 degrés.",
+          "tags": ["logique", "géométrie"]
+        },
+        {
+          "id": 12,
+          "intitule": "La bactérie et le bocal",
+          "enonce": "Un bocal est plein à 12h00, la quantité de bactéries double chaque minute. À quelle heure était-il à moitié plein ?",
+          "raisonnement": [
+            "La croissance est exponentielle : chaque minute, on multiplie par 2.",
+            "Si le bocal est plein à 12h00, il est à moitié plein une minute avant.",
+            "Donc, il était à moitié plein à 11h59."
+          ],
+          "reponse_textuelle": "Le bocal était à moitié plein à 11h59.",
+          "tags": ["exponentielle", "intuition"]
+        },
+        {
+          "id": 13,
+          "intitule": "8 boules et balance à plateaux",
+          "enonce": "8 boules identiques, une est plus lourde. Combien de pesées minimum pour la trouver ?",
+          "raisonnement": [
+            "Première pesée : 3 boules contre 3 boules.",
+            "Si la balance est équilibrée : la boule plus lourde est parmi les 2 restantes → une deuxième pesée entre ces 2 suffit.",
+            "Si la balance penche : la boule plus lourde est dans le groupe de 3 qui penche → deuxième pesée en plaçant 1 boule de ce groupe sur chaque plateau.",
+            "Si la seconde pesée est équilibrée, la troisième boule est la plus lourde ; sinon, c’est celle du plateau qui penche.",
+            "Dans tous les cas, 2 pesées suffisent."
+          ],
+          "reponse_numerique": "2 pesées.",
+          "tags": ["logique", "optimisation"]
+        },
+        {
+          "id": 14,
+          "intitule": "Somme des entiers de 1 à 100",
+          "raisonnement": [
+            "On peut regrouper les nombres en paires : 1 + 100, 2 + 99, 3 + 98, etc.",
+            "Chaque paire vaut 101.",
+            "Il y a 50 paires (100 nombres / 2).",
+            "Somme totale = 50 × 101 = 5 050.",
+            "Formule générale pour la somme de 1 à n : n(n + 1) / 2, ici 100 × 101 / 2 = 5 050."
+          ],
+          "reponse_numerique": "5 050.",
+          "tags": ["arithmétique", "formule"]
+        },
+        {
+          "id": 15,
+          "intitule": "Paradoxe des anniversaires (23 personnes)",
+          "enonce": "Dans un groupe de 23 personnes, la probabilité qu’au moins deux partagent le même anniversaire est-elle supérieure à 50 % ?",
+          "raisonnement": [
+            "On calcule la probabilité complémentaire : que tous les anniversaires soient différents.",
+            "La première personne peut avoir n’importe quelle date.",
+            "La deuxième doit avoir une date différente : probabilité 364 / 365.",
+            "La troisième doit être différente des deux premières : 363 / 365, etc.",
+            "Le produit 364/365 × 363/365 × … pour 23 personnes descend sous 0,5.",
+            "Donc la probabilité d’au moins une collision d’anniversaire dépasse 50 %."
+          ],
+          "reponse_textuelle": "Oui, la probabilité qu’au moins deux personnes partagent un anniversaire dépasse 50 % pour 23 personnes.",
+          "tags": ["probabilités", "collision"]
+        },
+        {
+          "id": 16,
+          "intitule": "Problème de Monty Hall",
+          "enonce": "3 portes, 1 voiture et 2 chèvres. Tu choisis une porte A, le présentateur ouvre une porte C avec une chèvre. Faut-il changer pour B ?",
+          "raisonnement": [
+            "Au départ, probabilité d’avoir la voiture derrière la porte A = 1/3, probabilité qu’elle soit derrière B ou C = 2/3.",
+            "Le présentateur sait où est la voiture et ouvre toujours une porte avec une chèvre, ici C.",
+            "L’information “porte C est une chèvre” concentre les 2/3 de probabilité sur la porte B.",
+            "En restant, on garde 1/3 de chance ; en changeant, on passe à 2/3.",
+            "Changer de porte maximise donc la probabilité de gagner la voiture."
+          ],
+          "reponse_textuelle": "Oui, il faut changer : la probabilité de gagner passe de 1/3 à 2/3.",
+          "tags": ["paradoxe", "conditionnel"]
+        },
+        {
+          "id": 17,
+          "intitule": "Espérance du nombre de lancers pour obtenir un 6",
+          "raisonnement": [
+            "On modélise le nombre de lancers nécessaires par une loi géométrique.",
+            "Paramètre p = probabilité d’obtenir un 6 à chaque lancer = 1/6.",
+            "Espérance d’une loi géométrique = 1 / p.",
+            "Espérance = 1 / (1/6) = 6."
+          ],
+          "reponse_numerique": "En moyenne, 6 lancers.",
+          "tags": ["espérance", "loi géométrique"]
+        },
+        {
+          "id": 18,
+          "intitule": "100 boules dans 2 urnes (maximiser la probabilité de tirer une bleue)",
+          "enonce": "50 boules rouges, 50 boules bleues. Tu les répartis dans 2 urnes. Tu choisis une urne au hasard puis une boule au hasard. Comment répartir pour maximiser la probabilité de tirer une bleue ?",
+          "raisonnement": [
+            "Mettre une seule boule bleue dans l’urne 1.",
+            "Mettre les 99 autres boules (49 bleues, 50 rouges) dans l’urne 2.",
+            "Probabilité de choisir l’urne 1 = 1/2, et d’y tirer une bleue = 1.",
+            "Probabilité de choisir l’urne 2 = 1/2, et d’y tirer une bleue ≈ 49/99.",
+            "Probabilité totale de tirer une bleue = (1/2 × 1) + (1/2 × 49/99).",
+            "Cela vaut ≈ 0,5 + 0,5 × 0,49 ≈ 0,5 + 0,245 = 0,745, soit environ 74,5 %."
+          ],
+          "reponse_textuelle": "Mettre 1 bleue seule dans une urne, et les 99 autres boules dans l’autre ; probabilité ≈ 74,5 %.",
+          "tags": ["optimisation", "probabilités"]
+        },
+        {
+          "id": 19,
+          "intitule": "Nombre de croisements des aiguilles en 24 heures",
+          "raisonnement": [
+            "Les aiguilles se croisent un peu plus d’une fois par heure, mais pas exactement 24 fois.",
+            "Sur 12 heures, elles se croisent 11 fois (il manque un croisement sur le tour).",
+            "En 24 heures, elles se croisent 2 × 11 = 22 fois."
+          ],
+          "reponse_numerique": "22 croisements en 24 heures.",
+          "tags": ["logique", "rythme cyclique"]
+        },
+        {
+          "id": 20,
+          "intitule": "Corde autour de la Terre",
+          "enonce": "Une corde entoure la Terre à l’équateur (circonférence ≈ 40 000 km). On ajoute 1 mètre à la corde et on la relève de manière uniforme. De combien la corde se décolle-t-elle du sol ?",
+          "raisonnement": [
+            "Formule de la circonférence d’un cercle : C = 2πR.",
+            "Initialement : C0 = 2πR.",
+            "Après ajout de 1 mètre : C1 = C0 + 1 = 2π(R + h), où h est la hauteur de décollement.",
+            "Donc : 2πR + 1 = 2πR + 2πh → 1 = 2πh.",
+            "On en déduit : h = 1 / (2π) ≈ 0,159 m, soit environ 16 cm.",
+            "Résultat surprenant : cette hauteur ne dépend pas du rayon initial (orange ou Terre)."
+          ],
+          "reponse_numerique": "Environ 16 cm de décollement.",
+          "tags": ["géométrie", "intuition"]
+        }
+      ]
+    },
+    {
+      "id": "bloc3_business_actuariat",
+      "titre": "Bloc 3 – Business et intuition actuarielle",
+      "questions": [
+        {
+          "id": 21,
+          "intitule": "Pourquoi la pluie est-elle difficile à assurer pour les grands événements ?",
+          "raisonnement": [
+            "Pour qu’un risque soit facilement mutualisable, il faut que les sinistres soient peu corrélés entre assurés.",
+            "La pluie sur une zone géographique est un risque très corrélé : s’il pleut fort sur un festival, il pleut sur tous les événements de la zone.",
+            "L’assureur doit donc indemniser beaucoup de clients en même temps.",
+            "Cela consomme beaucoup de capital (SCR) et rend la prime élevée.",
+            "Résultat : couverture possible, mais chère et souvent avec réassurance ou exclusions/sous-limites."
+          ],
+          "reponse_textuelle": "Parce que c’est un risque fortement corrélé qui peut toucher beaucoup d’assurés en même temps, ce qui exige beaucoup de capital et rend la mutualisation difficile."
+        },
+        {
+          "id": 22,
+          "intitule": "Estimer la prime RC d’un étudiant",
+          "raisonnement": [
+            "Utiliser la formule actuarielle de base : Prime pure ≈ Fréquence × Coût moyen.",
+            "Fréquence : un gros sinistre de responsabilité civile pour un étudiant est rare, par exemple 1 fois tous les 100 ans → fréquence ≈ 0,01 par an.",
+            "Coût moyen : la plupart des petits sinistres coûtent quelques centaines d’euros, mais un accident grave peut coûter plusieurs centaines de milliers voire un million.",
+            "On peut prendre un coût moyen pondéré simplifié ≈ 2 000 €.",
+            "Prime pure ≈ 0,01 × 2 000 = 20 €.",
+            "Après chargements (frais, marge) → prime commerciale autour de 30–40 € par an."
+          ],
+          "reponse_textuelle": "Prime pure ≈ 20 €, prime commerciale typique ≈ 30–40 € par an.",
+          "formule": "Prime pure ≈ Fréquence × Coût moyen."
+        },
+        {
+          "id": 23,
+          "intitule": "Coût moyen d’une journée d’hospitalisation",
+          "raisonnement": [
+            "On raisonne par analogie avec un hôtel de bon niveau, puis on ajoute le coût médical.",
+            "Hébergement et repas ≈ 300 € par jour.",
+            "Salaires du personnel médical et soignant (24/24) ≈ 600 €.",
+            "Amortissement des équipements lourds (IRM, bloc opératoire) ≈ 200 €.",
+            "Coût total ≈ 1 100 € par jour, typiquement entre 1 000 et 1 500 €, davantage en réanimation (jusqu’à 3 000 €)."
+          ],
+          "reponse_textuelle": "Ordre de grandeur : 1 000 à 1 500 € par jour, jusqu’à 3 000 € en réanimation.",
+          "tags": ["santé", "coût"]
+        },
+        {
+          "id": 24,
+          "intitule": "Ordre de grandeur du taux technique (taux sans risque)",
+          "raisonnement": [
+            "Le taux technique s’inspire du niveau des taux des obligations d’État (OAT 10 ans).",
+            "Après une période de taux très bas voire négatifs, les taux sont remontés.",
+            "Aujourd’hui, un ordre de grandeur raisonnable être retenu est autour de 2,5 à 3 % pour un taux sans risque de long terme."
+          ],
+          "reponse_textuelle": "Taux technique actuellement de l’ordre de 2,5 % à 3 %.",
+          "tags": ["taux", "actuariat vie"]
+        },
+        {
+          "id": 25,
+          "intitule": "Impact du télétravail sur la sinistralité auto",
+          "raisonnement": [
+            "Télétravail réduit le nombre de trajets domicile-travail.",
+            "Fréquence des sinistres diminue : moins de kilomètres parcourus, moins de situations à risque.",
+            "Sévérité peut augmenter : routes plus vides, vitesses plus élevées → accidents plus graves en moyenne.",
+            "Globalement, l’effet tend à réduire le coût total, ce qui pousse à adapter les produits (pay as you drive, pay how you drive)."
+          ],
+          "reponse_textuelle": "Fréquence en baisse, sévérité potentiellement en hausse, mais effet global plutôt favorable à l’assureur, avec apparition de produits kilométriques.",
+          "tags": ["auto", "télétravail"]
+        },
+        {
+          "id": 26,
+          "intitule": "Coût annuel moyen des catastrophes naturelles en France",
+          "raisonnement": [
+            "Petites années : coût global d’environ 1 à 2 milliards d’euros.",
+            "Grosses années (grêle, sécheresse, inondations) : jusqu’à 10 milliards ou plus.",
+            "En moyenne, en lissant sur plusieurs années, on obtient un coût annuel autour de 3,5 à 4 milliards d’euros.",
+            "L’impact augmente avec le dérèglement climatique."
+          ],
+          "reponse_textuelle": "Ordre de grandeur : 3,5 à 4 milliards d’euros par an.",
+          "tags": ["cat nat", "risque climatique"]
+        },
+        {
+          "id": 27,
+          "intitule": "Perte maximale possible (PMP) cyber pour une PME",
+          "raisonnement": [
+            "On considère une PME avec un chiffre d’affaires annuel de 10 millions d’euros.",
+            "Perte d’exploitation : par exemple 15 jours d’arrêt → 10 M€ / 365 × 15 ≈ 0,41 M€.",
+            "Frais de réponse à incident : experts IT, avocats, communication de crise → quelques centaines de milliers d’euros.",
+            "Éventuelle rançon et pénalités réglementaires.",
+            "Un scénario de perte maximale plausible se situe dans une fourchette de 1 à 2 millions d’euros."
+          ],
+          "reponse_textuelle": "Pour une PME de 10 M€ de CA, une PMP cyber autour de 1 à 2 M€ est un ordre de grandeur réaliste.",
+          "tags": ["cyber", "PMP"]
+        },
+        {
+          "id": 28,
+          "intitule": "Âge moyen d’entrée en dépendance",
+          "raisonnement": [
+            "Espérance de vie ≈ 82–83 ans.",
+            "La dépendance lourde survient souvent dans les dernières années de vie.",
+            "Âge moyen d’entrée en dépendance : environ 83–85 ans."
+          ],
+          "reponse_textuelle": "Ordre de grandeur : 83 à 85 ans.",
+          "tags": ["dépendance", "biométrie"]
+        },
+        {
+          "id": 29,
+          "intitule": "Encours de l’assurance vie en France",
+          "raisonnement": [
+            "Population ≈ 68 millions.",
+            "Épargne moyenne par personne investie en assurance vie ≈ 30 000 €.",
+            "Ordre de grandeur de l’encours global ≈ 68 M × 30 000 ≈ 2 040 milliards d’euros.",
+            "Les chiffres publiés tournent autour de 1 700 à 2 000 milliards.",
+            "On retient ≈ 1 900 milliards d’euros."
+          ],
+          "reponse_textuelle": "Environ 1 900 milliards d’euros d’encours d’assurance vie.",
+          "tags": ["marché vie", "macro"]
+        },
+        {
+          "id": 30,
+          "intitule": "Inversion du cycle de production en assurance",
+          "raisonnement": [
+            "Dans une industrie classique, l’entreprise connaît ses coûts avant de fixer son prix (acheter la farine avant de vendre le pain).",
+            "En assurance, l’assureur encaisse la prime avant de connaître le coût réel des sinistres.",
+            "Cela crée un “cycle inversé” : le produit est vendu avant que le coût ne soit totalement observé.",
+            "Conséquence : rôle central des provisions techniques et de l’actuaire pour estimer ces coûts futurs et garantir la solvabilité."
+          ],
+          "reponse_textuelle": "L’assureur vend et encaisse la prime avant de connaître le coût réel des sinistres, d’où l’importance des provisions et du travail actuariel de projection.",
+          "tags": ["business model", "provisions"]
+        }
+      ]
+    }
+  ]
+}

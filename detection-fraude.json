@@ -1,0 +1,153 @@
+{
+  "nom_projet": "Détection de fraude assurance auto",
+  "type": "Data science / Actuariat IARD",
+  "contexte": {
+    "probleme": "Fraude à l'assurance auto impactant la mutualisation et le ratio combiné",
+    "objectif": "Construire un modèle de scoring et un outil opérationnel pour prioriser les dossiers suspects",
+    "enjeux": [
+      "Réduire la charge de sinistres frauduleux",
+      "Limiter les faux positifs pour préserver la relation client",
+      "Déployer une solution low-tech utilisable par les gestionnaires"
+    ]
+  },
+  "methodes": {
+    "python": {
+      "environnement": "Google Colab",
+      "packages": [
+        "pandas",
+        "numpy",
+        "scikit-learn",
+        "imblearn",
+        "seaborn",
+        "matplotlib"
+      ],
+      "etapes": [
+        "Nettoyage des données et traitement des valeurs manquantes",
+        "Gestion de la multicolinéarité (VIF, Condition Number, création de ratios)",
+        "Gestion du déséquilibre de classes avec SMOTE et StratifiedKFold via ImbPipeline",
+        "Entraînement de modèles de classification et VotingClassifier",
+        "Évaluation via matrice de confusion, précision, rappel, F1, ROC, précision-rappel"
+      ]
+    },
+    "vba_excel": {
+      "architecture": [
+        "Module modImport pour l'import et la mise à jour automatique des données et graphiques",
+        "UDF pour le calcul du score directement dans les cellules",
+        "UserForm pour la saisie guidée des dossiers"
+      ],
+      "dashboard": [
+        "KPIs de fraude et d'exposition",
+        "TCD par zone, type de sinistre, profil",
+        "Curseur de sensibilité pour ajuster le seuil de fraude"
+      ],
+      "bonnes_pratiques": [
+        "Option Explicit et code modulaire",
+        "Gestion d'erreurs structurée",
+        "Utilisation d'Arrays et ScreenUpdating=False pour la performance"
+      ]
+    },
+    "actuariat": {
+      "logique_scoring": "MVP à base de règles métier, cible GLM / régression logistique",
+      "evaluation": "Matrice de confusion, rappel, précision, F1, analyse de seuil",
+      "ethique": [
+        "Réalisme algorithmique (human-in-the-loop)",
+        "Sobriété numérique"
+      ]
+    }
+  },
+  "resultats": {
+    "outil": "Application Excel/VBA de scoring temps réel pour les gestionnaires",
+    "pilotage": "Dashboard de priorisation des dossiers et analyse des clusters de fraude",
+    "maintenabilite": "Code structuré, paramétrable, prêt à être ré-entraîné en cas de data drift"
+  },
+  "questions": [
+    {
+      "theme": "Méthodologie data",
+      "question": "Pourquoi avoir vérifié la multicolinéarité avant de modéliser ?",
+      "reponse_courte": "Pour stabiliser les coefficients et éviter l'overfitting en remplaçant les variables trop corrélées par des ratios plus robustes."
+    },
+    {
+      "theme": "Déséquilibre des classes",
+      "question": "Comment avez-vous géré le déséquilibre entre dossiers normaux et fraudes ?",
+      "reponse_courte": "Avec SMOTE combiné à StratifiedKFold dans un ImbPipeline pour ré-équilibrer l'apprentissage sans fuite d'information."
+    },
+    {
+      "theme": "Evaluation",
+      "question": "Pourquoi ne pas se contenter de l'accuracy pour ce modèle ?",
+      "reponse_courte": "Parce que la fraude est rare : j'ai privilégié rappel, précision, F1 et précision-rappel pour mesurer l'efficacité réelle."
+    },
+    {
+      "theme": "Python vs VBA",
+      "question": "Pourquoi avoir développé un outil VBA alors que Python suffisait ?",
+      "reponse_courte": "Pour l'accessibilité opérationnelle : scoring temps réel dans Excel, l'outil quotidien des gestionnaires, donc adoption immédiate."
+    },
+    {
+      "theme": "Dashboard",
+      "question": "Que contient votre dashboard de fraude et à quoi sert-il ?",
+      "reponse_courte": "Des KPIs, une matrice de confusion, des TCD géographiques et un seuil ajustable, pour prioriser les dossiers et piloter la lutte anti-fraude."
+    },
+    {
+      "theme": "Ethique",
+      "question": "Qu'est-ce que le réalisme algorithmique dans votre projet ?",
+      "reponse_courte": "Le modèle reste une aide à la décision : il explique les facteurs de risque, mais la décision finale revient à l'expert humain."
+    },
+    {
+      "theme": "Transversalité",
+      "question": "Comment ce projet est-il transférable à d'autres missions actuarielles ?",
+      "reponse_courte": "La même méthodologie s'applique à la tarification GLM, au provisionnement automatisé, à l'anti-sélection vie ou à la LCB-FT."
+    },
+    {
+      "theme": "Vie",
+      "question": "Comment ce projet de fraude est utile pour l'assurance Vie ?",
+      "reponse_courte": "Il m'a appris à concevoir des scores de risque interprétables, transposables à l'anti-sélection, à la fraude sur prestations santé ou à la LCB-FT."
+    },
+    {
+      "theme": "Vie",
+      "question": "Comment utiliseriez-vous cette méthodologie pour la sélection médicale ?",
+      "reponse_courte": "Je construirais des variables explicatives pertinentes, vérifierais la multicolinéarité, puis calibrerais un modèle (GLM/logistique) avec un seuil ajustable selon la politique de souscription."
+    },
+    {
+      "theme": "Vie",
+      "question": "En quoi votre approche est compatible avec les exigences éthiques en Vie ?",
+      "reponse_courte": "Score explicable, seuils ajustables et décision finale toujours humaine : on respecte la non-discrimination et le rôle de l'actuaire comme garant de l'équité."
+    },
+    {
+      "theme": "Vie",
+      "question": "Comment relier ce projet à la LCB-FT ?",
+      "reponse_courte": "On peut reprendre la logique de scoring sur des signaux d'alerte (mouvements atypiques, comportements anormaux) et la même idée de seuil d'alerte et de ré-entraînement régulier."
+    },
+    {
+      "theme": "Vie",
+      "question": "Quel lien faites-vous avec le provisionnement en Vie ?",
+      "reponse_courte": "La rigueur sur la qualité des données et la stabilité des modèles est la même : avant d'estimer des provisions, je sécurise la donnée et la sélection de variables comme je l'ai fait pour la fraude."
+    },
+    {
+  "theme": "Non-Vie",
+  "question": "Quel lien entre ce projet et la tarification auto en Non-Vie ?",
+  "reponse_courte": "Même logique que pour un GLM de fréquence : sélection de variables, contrôle de corrélations, calibration d’un modèle et lecture fine des impacts sur le portefeuille."
+    },
+    {
+  "theme": "Non-Vie",
+  "question": "Comment ce projet vous prépare-t-il au provisionnement (triangles, Chain Ladder) ?",
+  "reponse_courte": "J’ai appris à automatiser des traitements sous VBA, à fiabiliser les données et à construire des dashboards, exactement ce qu’il faut pour industrialiser les triangles de liquidation."
+    },
+    {
+  "theme": "Non-Vie",
+  "question": "Quel est l’impact de la fraude détectée sur le ratio combiné ?",
+  "reponse_courte": "Mieux détecter la fraude baisse la charge de sinistres, donc améliore directement le ratio combiné et la rentabilité technique."
+    },
+    {
+  "theme": "Non-Vie",
+  "question": "Comment utiliseriez-vous votre approche pour un contrôle de portefeuilles IARD ?",
+  "reponse_courte": "En reprenant la même chaîne : nettoyage, indicateurs, segmentation, puis dashboard VBA pour suivre les poches de risque ou de dérive de fréquence/sévérité."
+    },
+    {
+  "theme": "Non-Vie",
+  "question": "Que montre ce projet sur votre capacité à travailler avec les gestionnaires sinistres ?",
+  "reponse_courte": "Je sais traduire un modèle Python en outil Excel ergonomique, donc co-construire avec les gestionnaires un outil réellement utilisé."
+    }
+
+    
+  ]
+}
+
